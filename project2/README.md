@@ -120,11 +120,6 @@ Course submission PDFs and personal report artifacts are kept locally in `_archi
 - Parameterized SQL query usage
 - Excel data ingestion with Python
 - Multi-role CRUD workflow implementation
-- Project cleanup and repository documentation
 
-## Suggested Repository Names
 
-- `transferdb-flask-mysql`
-- `football-transfer-db-app`
-- `cmpe321-transferdb`
-- `flask-mysql-transfer-management`
+

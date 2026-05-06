@@ -35,6 +35,4 @@ Project 2 contains the continuation of the same project as a Flask web applicati
 
 See [`project2/README.md`](project2/README.md) for setup and run instructions.
 
-## Suggested GitHub Repository Name
 
-`cmpe321-transferdb`

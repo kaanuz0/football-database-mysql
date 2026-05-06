@@ -72,11 +72,4 @@ Course reports are included for public review with student IDs removed. Local ed
 - ISA hierarchy implementation in relational databases
 - Many-to-many relationship modeling
 - Constraint analysis and documentation
-- MySQL schema validation
-- Repository cleanup for public presentation
 
-## Suggested Repository Names
-
-- `transferdb-mysql-schema`
-- `football-transfer-database`
-- `cmpe321-transferdb`
