@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}Match History{% endblock %}
+{% block content %}
+<h2>📋 Match History</h2>
+<div class="table-responsive">
+<table class="table table-striped table-sm">
+  <thead><tr>
+    <th>Date</th><th>Competition</th><th>Stadium</th>
+    <th>Home</th><th>Score</th><th>Away</th>
+    <th>Pos</th><th>Min</th><th>G</th><th>A</th><th>YC</th><th>RC</th><th>Rating</th>
+  </tr></thead>
+  <tbody>
+  {% for m in matches %}
+    <tr>
+      <td>{{ m.match_datetime.strftime('%Y-%m-%d %H:%M') if m.match_datetime else '—' }}</td>
+      <td>{{ m.competition }}</td>
+      <td>{{ m.stadium_name }}</td>
+      <td>{{ m.home_club }}</td>
+      <td>
+        {% if m.home_goals is not none %}
+          <strong>{{ m.home_goals }} – {{ m.away_goals }}</strong>
+        {% else %}
+          <span class="text-muted">Scheduled</span>
+        {% endif %}
+      </td>
+      <td>{{ m.away_club }}</td>
+      <td>{{ m.position_in_match }}</td>
+      <td>{{ m.minutes_played }}</td>
+      <td>{{ m.goals }}</td>
+      <td>{{ m.assists }}</td>
+      <td>{{ m.yellow_cards }}</td>
+      <td>{{ '✓' if m.red_cards else '' }}</td>
+      <td>{{ m.rating }}</td>
+    </tr>
+  {% else %}
+    <tr><td colspan="13" class="text-center text-muted">No match history found.</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endblock %}

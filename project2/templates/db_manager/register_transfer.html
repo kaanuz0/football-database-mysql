@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block title %}Register Transfer{% endblock %}
+{% block content %}
+<h2>🔁 Register Transfer &amp; Contract</h2>
+<div class="card shadow-sm">
+  <div class="card-body">
+    <form method="post">
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label">Player</label>
+          <select name="player_id" class="form-select" required>
+            <option value="">-- select player --</option>
+            {% for p in players %}
+              <option value="{{ p.person_id }}">{{ p.name }} {{ p.surname }} (MV: €{{ p.market_value|int }})</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Destination Club</label>
+          <select name="to_club_id" class="form-select" required>
+            <option value="">-- select club --</option>
+            {% for c in clubs %}
+              <option value="{{ c.club_id }}">{{ c.club_name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Contract Type</label>
+          <select name="contract_type" class="form-select" required>
+            <option value="Permanent">Permanent</option>
+            <option value="Loan">Loan</option>
+          </select>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Transfer Type</label>
+          <select name="transfer_type" class="form-select" required>
+            <option value="Purchase">Purchase</option>
+            <option value="Free">Free</option>
+            <option value="Loan">Loan</option>
+          </select>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Contract End Date</label>
+          <input type="date" name="end_date" class="form-control" required>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Weekly Wage (€)</label>
+          <input type="number" name="weekly_wage" class="form-control" step="0.01" min="1" required>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Transfer Fee (€)</label>
+          <input type="number" name="transfer_fee" class="form-control" step="0.01" min="0" value="0" required>
+        </div>
+        <div class="col-12">
+          <button type="submit" class="btn btn-primary">Register Transfer</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<p class="text-muted mt-2"><small>
+  ⚠️ Transferring a player via a Permanent contract will automatically terminate their current Permanent contract.
+  Loan transfers require the player to already have an active Permanent contract at another club.
+</small></p>
+{% endblock %}

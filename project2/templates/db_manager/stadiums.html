@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Stadiums{% endblock %}
+{% block content %}
+<h2>🏟 Stadiums</h2>
+<table class="table table-striped table-hover">
+  <thead><tr>
+    <th>#</th><th>Name</th><th>City</th><th>Capacity</th><th>Home Club(s)</th>
+  </tr></thead>
+  <tbody>
+  {% for s in stadiums %}
+    <tr>
+      <td>{{ s.stadium_id }}</td>
+      <td>{{ s.stadium_name }}</td>
+      <td>{{ s.city }}</td>
+      <td>{{ s.capacity | int }}</td>
+      <td>{{ s.home_clubs or '—' }}</td>
+    </tr>
+  {% else %}
+    <tr><td colspan="5" class="text-center text-muted">No stadiums found.</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

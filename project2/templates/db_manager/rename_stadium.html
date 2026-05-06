@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}Rename Stadium{% endblock %}
+{% block content %}
+<h2>✏️ Rename Stadium</h2>
+<div class="card shadow-sm mb-4">
+  <div class="card-body">
+    <form method="post">
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label">Select Stadium</label>
+          <select name="stadium_id" class="form-select" required>
+            <option value="">-- select --</option>
+            {% for s in stadiums %}
+              <option value="{{ s.stadium_id }}">{{ s.stadium_name }} ({{ s.city }})</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">New Name</label>
+          <input type="text" name="new_name" class="form-control" required>
+        </div>
+        <div class="col-12">
+          <button type="submit" class="btn btn-warning">Rename</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<h5>Current Stadiums</h5>
+<table class="table table-sm table-striped">
+  <thead><tr><th>ID</th><th>Name</th><th>City</th><th>Capacity</th></tr></thead>
+  <tbody>
+  {% for s in stadiums %}
+    <tr><td>{{ s.stadium_id }}</td><td>{{ s.stadium_name }}</td><td>{{ s.city }}</td><td>{{ s.capacity }}</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

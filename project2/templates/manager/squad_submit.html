@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}Submit Squad{% endblock %}
+{% block content %}
+<h2>🧑‍🤝‍🧑 Submit Match Squad — Match #{{ match_id }}</h2>
+<p class="text-muted">Match Date: {{ match_date }} &nbsp;|&nbsp; Select 11–23 players. Mark up to 11 as starters.</p>
+
+<form method="post">
+  <div class="table-responsive">
+  <table class="table table-sm table-hover">
+    <thead>
+      <tr>
+        <th>Select</th><th>Starter</th><th>Name</th><th>Position</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for p in players %}
+      <tr>
+        <td>
+          <input type="checkbox" name="player_ids" value="{{ p.person_id }}"
+            {% if p.person_id in current_ids %}checked{% endif %}>
+        </td>
+        <td>
+          <input type="checkbox" name="starter_ids" value="{{ p.person_id }}"
+            {% if p.person_id in current_starters %}checked{% endif %}>
+        </td>
+        <td>{{ p.name }} {{ p.surname }}</td>
+        <td>{{ p.main_position }}</td>
+      </tr>
+    {% else %}
+      <tr><td colspan="4" class="text-muted text-center">No eligible players with active contracts on match date.</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+  <div class="mt-2">
+    <button type="submit" class="btn btn-primary">Submit Squad</button>
+    <a href="{{ url_for('manager_fixtures') }}" class="btn btn-outline-secondary ms-2">Cancel</a>
+  </div>
+</form>
+{% endblock %}

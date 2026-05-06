@@ -1,0 +1,37 @@
+# Local environment
+.env
+.env.*
+!.env.example
+.venv/
+venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+build/
+dist/
+*.egg-info/
+
+# Flask
+instance/
+.webassets-cache
+
+# Database and generated data
+*.sqlite
+*.sqlite3
+*.db
+*.sql.gz
+
+# Local IDE and OS files
+.DS_Store
+.idea/
+.vscode/
+
+# Course submission and personal report artifacts kept locally only
+_archive/
+**/_archive/
+*.zip

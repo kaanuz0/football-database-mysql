@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+{% block title %}Sign Up – TransferDB{% endblock %}
+{% block content %}
+<div class="row justify-content-center mt-3">
+  <div class="col-md-6">
+    <div class="card shadow">
+      <div class="card-header fw-bold fs-5">Create Account</div>
+      <div class="card-body">
+        <form method="post" id="signupForm">
+          <div class="mb-3">
+            <label class="form-label">Role</label>
+            <select name="role" id="roleSelect" class="form-select" required onchange="showFields()">
+              <option value="">-- select role --</option>
+              <option value="db_manager">Database Manager</option>
+              <option value="player">Player</option>
+              <option value="manager">Manager</option>
+              <option value="referee">Referee</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Username</label>
+            <input type="text" name="username" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Password
+              <small class="text-muted">(min 8 chars, upper, lower, digit, special)</small>
+            </label>
+            <input type="password" name="password" class="form-control" required>
+          </div>
+
+          <!-- Common person fields -->
+          <div id="personFields" style="display:none">
+            <div class="row">
+              <div class="col mb-3">
+                <label class="form-label">First Name</label>
+                <input type="text" name="name" class="form-control">
+              </div>
+              <div class="col mb-3">
+                <label class="form-label">Surname</label>
+                <input type="text" name="surname" class="form-control">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col mb-3">
+                <label class="form-label">Nationality</label>
+                <input type="text" name="nationality" class="form-control">
+              </div>
+              <div class="col mb-3">
+                <label class="form-label">Date of Birth</label>
+                <input type="date" name="date_of_birth" class="form-control">
+              </div>
+            </div>
+          </div>
+
+          <!-- Player-specific -->
+          <div id="playerFields" style="display:none">
+            <div class="row">
+              <div class="col mb-3">
+                <label class="form-label">Market Value (€)</label>
+                <input type="number" name="market_value" class="form-control" step="0.01" min="1">
+              </div>
+              <div class="col mb-3">
+                <label class="form-label">Height (cm)</label>
+                <input type="number" name="height" class="form-control" min="1">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col mb-3">
+                <label class="form-label">Main Position</label>
+                <select name="main_position" class="form-select">
+                  <option>Goalkeeper</option><option>Defender</option>
+                  <option>Midfielder</option><option>Forward</option>
+                </select>
+              </div>
+              <div class="col mb-3">
+                <label class="form-label">Strong Foot</label>
+                <select name="strong_foot" class="form-select">
+                  <option>Right</option><option>Left</option><option>Both</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Manager-specific -->
+          <div id="managerFields" style="display:none">
+            <div class="row">
+              <div class="col mb-3">
+                <label class="form-label">Preferred Formation</label>
+                <input type="text" name="preferred_formation" class="form-control" placeholder="e.g. 4-3-3">
+              </div>
+              <div class="col mb-3">
+                <label class="form-label">Experience Level</label>
+                <select name="experience_level" class="form-select">
+                  <option>Beginner</option><option>Intermediate</option>
+                  <option>Expert</option><option>Elite</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Referee-specific -->
+          <div id="refereeFields" style="display:none">
+            <div class="row">
+              <div class="col mb-3">
+                <label class="form-label">License Level</label>
+                <select name="license_level" class="form-select">
+                  <option>FIFA</option><option>Continental</option><option>National</option>
+                </select>
+              </div>
+              <div class="col mb-3">
+                <label class="form-label">Years of Experience</label>
+                <input type="number" name="years_of_experience" class="form-control" min="0">
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-success w-100">Create Account</button>
+        </form>
+        <hr>
+        <p class="text-center mb-0">Already have an account? <a href="{{ url_for('login') }}">Login</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+function showFields(){
+  var role = document.getElementById('roleSelect').value;
+  document.getElementById('personFields').style.display  = (role && role !== 'db_manager') ? 'block' : 'none';
+  document.getElementById('playerFields').style.display  = role === 'player'   ? 'block' : 'none';
+  document.getElementById('managerFields').style.display = role === 'manager'  ? 'block' : 'none';
+  document.getElementById('refereeFields').style.display = role === 'referee'  ? 'block' : 'none';
+}
+</script>
+{% endblock %}

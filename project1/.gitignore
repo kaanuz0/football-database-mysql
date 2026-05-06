@@ -1,0 +1,22 @@
+# Local archive artifacts
+_archive/
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Database outputs and local dumps
+*.db
+*.sqlite
+*.sqlite3
+*.dump
+*.sql.gz
+
+# Logs and temporary files
+*.log
+*.tmp
+*.bak
+tmp/
+temp/

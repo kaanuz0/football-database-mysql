@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block title %}My Statistics{% endblock %}
+{% block content %}
+<h2>📊 Performance Statistics</h2>
+
+<form method="get" class="row g-2 mb-4">
+  <div class="col-auto">
+    <select name="season" class="form-select form-select-sm">
+      <option value="">All Seasons</option>
+      {% for s in seasons %}
+        <option value="{{ s.season }}" {% if s.season == sel_season %}selected{% endif %}>{{ s.season }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="col-auto">
+    <select name="competition_id" class="form-select form-select-sm">
+      <option value="">All Competitions</option>
+      {% for c in comps %}
+        <option value="{{ c.competition_id }}" {% if c.competition_id|string == sel_comp %}selected{% endif %}>
+          {{ c.name }} ({{ c.season }})
+        </option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="col-auto">
+    <button type="submit" class="btn btn-sm btn-primary">Filter</button>
+    <a href="{{ url_for('player_stats') }}" class="btn btn-sm btn-outline-secondary">Reset</a>
+  </div>
+</form>
+
+{% if stats %}
+<div class="row g-3">
+  {% set items = [
+    ('Games Played', stats.games_played),
+    ('Goals',        stats.goals),
+    ('Assists',      stats.assists),
+    ('Yellow Cards', stats.yellow_cards),
+    ('Red Cards',    stats.red_cards),
+    ('Avg Rating',   stats.avg_rating)
+  ] %}
+  {% for label, val in items %}
+  <div class="col-md-2">
+    <div class="card text-center border-primary">
+      <div class="card-body p-2">
+        <div class="fs-2 fw-bold text-primary">{{ val or 0 }}</div>
+        <div class="small text-muted">{{ label }}</div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<p class="text-muted">No data for selected filters.</p>
+{% endif %}
+{% endblock %}

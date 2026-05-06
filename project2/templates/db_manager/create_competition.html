@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block title %}Create Competition{% endblock %}
+{% block content %}
+<h2>🏆 Create New Competition</h2>
+<div class="card shadow-sm mb-4">
+  <div class="card-body">
+    <form method="post">
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label">Competition Name</label>
+          <input type="text" name="name" class="form-control" placeholder="e.g. Super Lig" required>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Season</label>
+          <input type="text" name="season" class="form-control" placeholder="e.g. 2025/2026" required>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Type</label>
+          <select name="competition_type" class="form-select" required>
+            <option value="League">League</option>
+            <option value="Cup">Cup</option>
+            <option value="International">International</option>
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Country</label>
+          <input type="text" name="country" class="form-control" placeholder="e.g. Türkiye" required>
+        </div>
+        <div class="col-12">
+          <button type="submit" class="btn btn-danger text-white">Create Competition</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<h5>Existing Competitions</h5>
+<table class="table table-sm table-striped">
+  <thead><tr><th>Name</th><th>Season</th><th>Country</th><th>Type</th></tr></thead>
+  <tbody>
+  {% for c in comps %}
+    <tr>
+      <td>{{ c.name }}</td><td>{{ c.season }}</td><td>{{ c.country }}</td><td>{{ c.competition_type }}</td>
+    </tr>
+  {% else %}
+    <tr><td colspan="4" class="text-muted text-center">None yet.</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

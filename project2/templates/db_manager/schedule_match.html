@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block title %}Schedule Match{% endblock %}
+{% block content %}
+<h2>📅 Schedule a Match</h2>
+<div class="card shadow-sm">
+  <div class="card-body">
+    <form method="post">
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label">Match Date</label>
+          <input type="date" name="match_date" class="form-control" required>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Match Time</label>
+          <input type="time" name="match_time" class="form-control" required>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Home Club</label>
+          <select name="home_club_id" class="form-select" required>
+            <option value="">-- select --</option>
+            {% for c in clubs %}
+              <option value="{{ c.club_id }}">{{ c.club_name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Away Club</label>
+          <select name="away_club_id" class="form-select" required>
+            <option value="">-- select --</option>
+            {% for c in clubs %}
+              <option value="{{ c.club_id }}">{{ c.club_name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Stadium</label>
+          <select name="stadium_id" class="form-select" required>
+            <option value="">-- select --</option>
+            {% for s in stadiums %}
+              <option value="{{ s.stadium_id }}">{{ s.stadium_name }} ({{ s.city }})</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Referee</label>
+          <select name="referee_id" class="form-select" required>
+            <option value="">-- select --</option>
+            {% for r in refs %}
+              <option value="{{ r.person_id }}">{{ r.name }} {{ r.surname }} [{{ r.license_level }}]</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label">Competition</label>
+          <select name="competition_id" class="form-select" required>
+            <option value="">-- select --</option>
+            {% for c in comps %}
+              <option value="{{ c.competition_id }}">{{ c.name }} ({{ c.season }})</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-12">
+          <button type="submit" class="btn btn-primary">Schedule Match</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<p class="text-muted mt-3"><small>⚠️ Matches must be in the future. 120-minute conflicts will be rejected automatically by the database.</small></p>
+{% endblock %}

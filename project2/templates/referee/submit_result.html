@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% block title %}Submit Match Result{% endblock %}
+{% block content %}
+<h2>📋 Submit Result — {{ match.competition }}</h2>
+<p class="text-muted">{{ match.match_datetime }} | {{ match.home_club }} vs {{ match.away_club }} | {{ match.stadium_name }}</p>
+
+<form method="post">
+  <div class="card shadow-sm mb-4">
+    <div class="card-header fw-bold">Final Score &amp; Attendance</div>
+    <div class="card-body row g-3">
+      <div class="col-md-3">
+        <label class="form-label">{{ match.home_club }} Goals</label>
+        <input type="number" name="home_goals" class="form-control" min="0"
+               value="{{ match.home_goals or 0 }}" required>
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">{{ match.away_club }} Goals</label>
+        <input type="number" name="away_goals" class="form-control" min="0"
+               value="{{ match.away_goals or 0 }}" required>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Attendance (max {{ match.capacity }})</label>
+        <input type="number" name="attendance" class="form-control" min="0"
+               max="{{ match.capacity }}" value="{{ match.attendance or 0 }}" required>
+      </div>
+    </div>
+  </div>
+
+  <div class="card shadow-sm">
+    <div class="card-header fw-bold">Player Statistics</div>
+    <div class="card-body">
+      {% set home_squad = squad | selectattr('club_id', 'equalto', match.home_club_id) | list %}
+      {% set away_squad = squad | selectattr('club_id', 'equalto', match.away_club_id) | list %}
+
+      {% for club_name, club_id, squad_list in [
+          (match.home_club, match.home_club_id, home_squad),
+          (match.away_club, match.away_club_id, away_squad)
+      ] %}
+      <h6 class="mt-3">{{ club_name }}</h6>
+      {% if squad_list %}
+      <div class="table-responsive">
+      <table class="table table-sm">
+        <thead><tr>
+          <th>Player</th><th>Starter</th><th>Pos</th><th>Min</th>
+          <th>G</th><th>A</th><th>YC</th><th>RC</th><th>Rating</th>
+        </tr></thead>
+        <tbody>
+        {% for p in squad_list %}
+          <tr>
+            <td>
+              {{ p.name }} {{ p.surname }}
+              <input type="hidden" name="player_id"   value="{{ p.player_id }}">
+              <input type="hidden" name="club_id_{{ p.player_id }}" value="{{ p.club_id }}">
+            </td>
+            <td><input type="checkbox" name="is_starter_{{ p.player_id }}"
+                       {% if p.is_starter %}checked{% endif %}></td>
+            <td><input type="text" name="position_in_match_{{ p.player_id }}"
+                       class="form-control form-control-sm" style="width:60px"
+                       value="{{ p.main_position[:2] if p.main_position else 'CM' }}"></td>
+            <td><input type="number" name="minutes_played_{{ p.player_id }}"
+                       class="form-control form-control-sm" style="width:65px"
+                       value="90" min="0" max="120"></td>
+            <td><input type="number" name="goals_{{ p.player_id }}"
+                       class="form-control form-control-sm" style="width:55px" value="0" min="0"></td>
+            <td><input type="number" name="assists_{{ p.player_id }}"
+                       class="form-control form-control-sm" style="width:55px" value="0" min="0"></td>
+            <td><input type="number" name="yellow_cards_{{ p.player_id }}"
+                       class="form-control form-control-sm" style="width:55px" value="0" min="0" max="2"></td>
+            <td><input type="checkbox" name="red_cards_{{ p.player_id }}" value="1"></td>
+            <td><input type="number" name="rating_{{ p.player_id }}"
+                       class="form-control form-control-sm" style="width:65px"
+                       value="7.0" min="1.0" max="10.0" step="0.1"></td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+      </div>
+      {% else %}
+        <p class="text-muted small">No squad submitted by manager for {{ club_name }}. Add players manually:</p>
+        <p class="text-muted small">(Squad must be submitted by the manager before result can include player stats)</p>
+      {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="mt-3">
+    <button type="submit" class="btn btn-danger">Submit Result</button>
+    <a href="{{ url_for('referee_match_history') }}" class="btn btn-outline-secondary ms-2">Cancel</a>
+  </div>
+</form>
+{% endblock %}

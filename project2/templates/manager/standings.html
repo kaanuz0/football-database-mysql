@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block title %}League Standings{% endblock %}
+{% block content %}
+<h2>🏆 League Standings</h2>
+
+<form method="get" class="row g-2 mb-3">
+  <div class="col-auto">
+    <select name="competition_id" class="form-select form-select-sm">
+      <option value="">-- select competition --</option>
+      {% for c in comps %}
+        <option value="{{ c.competition_id }}" {% if c.competition_id|string == sel_comp %}selected{% endif %}>
+          {{ c.name }}
+        </option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="col-auto">
+    <input type="text" name="season" class="form-control form-control-sm"
+           placeholder="Season e.g. 2025/2026" value="{{ sel_season }}">
+  </div>
+  <div class="col-auto">
+    <button type="submit" class="btn btn-sm btn-primary">View Standings</button>
+  </div>
+</form>
+
+{% if standings %}
+<table class="table table-striped table-hover">
+  <thead><tr>
+    <th>#</th><th>Club</th><th>P</th><th>W</th><th>D</th><th>L</th>
+    <th>GF</th><th>GA</th><th>GD</th><th class="text-primary fw-bold">Pts</th>
+  </tr></thead>
+  <tbody>
+  {% for i, row in standings | enumerate(start=1) %}
+    <tr {% if loop.index == 1 %}class="table-warning"{% endif %}>
+      <td>{{ i }}</td>
+      <td><strong>{{ row.club_name }}</strong></td>
+      <td>{{ row.played }}</td><td>{{ row.wins }}</td><td>{{ row.draws }}</td><td>{{ row.losses }}</td>
+      <td>{{ row.gf }}</td><td>{{ row.ga }}</td><td>{{ row.gd }}</td>
+      <td class="fw-bold text-primary">{{ row.pts }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% elif sel_comp and sel_season %}
+  <p class="text-muted">No completed matches found for this competition and season.</p>
+{% endif %}
+{% endblock %}

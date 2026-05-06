@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block title %}Competition Leaderboard{% endblock %}
+{% block content %}
+<h2>🥇 Competition Leaderboard</h2>
+
+<form method="get" class="row g-2 mb-3">
+  <div class="col-auto">
+    <select name="competition_id" class="form-select form-select-sm">
+      <option value="">-- select competition --</option>
+      {% for c in comps %}
+        <option value="{{ c.competition_id }}" {% if c.competition_id|string == sel_comp %}selected{% endif %}>
+          {{ c.name }} ({{ c.season }})
+        </option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="col-auto">
+    <input type="text" name="season" class="form-control form-control-sm"
+           placeholder="Season e.g. 2025/2026" value="{{ sel_season }}">
+  </div>
+  <div class="col-auto">
+    <select name="category" class="form-select form-select-sm">
+      <option value="goals"   {% if category == 'goals'   %}selected{% endif %}>Top Goal Scorers</option>
+      <option value="assists" {% if category == 'assists' %}selected{% endif %}>Top Assist Providers</option>
+      <option value="rating"  {% if category == 'rating'  %}selected{% endif %}>Highest Avg Rating (min 3 matches)</option>
+    </select>
+  </div>
+  <div class="col-auto">
+    <button type="submit" class="btn btn-sm btn-primary">View</button>
+  </div>
+</form>
+
+{% if top_players %}
+<table class="table table-hover">
+  <thead><tr>
+    <th>#</th><th>Player</th><th>Club</th><th>Matches Played</th>
+    <th>
+      {% if category == 'goals' %}Goals
+      {% elif category == 'assists' %}Assists
+      {% else %}Avg Rating{% endif %}
+    </th>
+  </tr></thead>
+  <tbody>
+  {% for i, p in top_players | enumerate(start=1) %}
+    <tr {% if loop.index <= 3 %}class="table-warning"{% endif %}>
+      <td>{{ i }}</td>
+      <td><strong>{{ p.name }} {{ p.surname }}</strong></td>
+      <td>{{ p.club_name or '—' }}</td>
+      <td>{{ p.played }}</td>
+      <td class="fw-bold">{{ p.metric }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% elif sel_comp and sel_season %}
+  <p class="text-muted">No data found for selected filters.</p>
+{% endif %}
+{% endblock %}

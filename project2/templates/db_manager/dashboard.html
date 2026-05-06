@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block title %}DB Manager Dashboard{% endblock %}
+{% block content %}
+<h2>Database Manager Dashboard</h2>
+<p>Welcome, <strong>{{ session.user }}</strong>. Use the sidebar to manage the TransferDB system.</p>
+<div class="row g-3 mt-2">
+  <div class="col-md-4">
+    <div class="card text-white bg-primary">
+      <div class="card-body">
+        <h5>🏟 Stadiums</h5>
+        <p>View all stadiums and their home clubs.</p>
+        <a href="{{ url_for('view_stadiums') }}" class="btn btn-light btn-sm">Go</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card text-white bg-success">
+      <div class="card-body">
+        <h5>📅 Schedule Match</h5>
+        <p>Plan new fixtures with conflict checking.</p>
+        <a href="{{ url_for('schedule_match') }}" class="btn btn-light btn-sm">Go</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card text-white bg-warning">
+      <div class="card-body">
+        <h5>🔁 Register Transfer</h5>
+        <p>Move a player between clubs with contract.</p>
+        <a href="{{ url_for('register_transfer') }}" class="btn btn-light btn-sm">Go</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card text-white bg-secondary">
+      <div class="card-body">
+        <h5>✏️ Rename Stadium</h5>
+        <a href="{{ url_for('rename_stadium') }}" class="btn btn-light btn-sm">Go</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card text-white bg-info">
+      <div class="card-body">
+        <h5>👔 Assign Manager</h5>
+        <a href="{{ url_for('assign_manager') }}" class="btn btn-light btn-sm">Go</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card text-white bg-danger">
+      <div class="card-body">
+        <h5>🏆 New Competition</h5>
+        <a href="{{ url_for('create_competition') }}" class="btn btn-light btn-sm">Go</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

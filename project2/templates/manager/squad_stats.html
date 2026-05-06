@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block title %}Squad Statistics{% endblock %}
+{% block content %}
+<h2>📊 Squad Statistics{% if club %} — {{ club.club_name }}{% endif %}</h2>
+
+<form method="get" class="row g-2 mb-3">
+  <div class="col-auto">
+    <select name="competition_id" class="form-select form-select-sm">
+      <option value="">All Competitions</option>
+      {% for c in comps %}
+        <option value="{{ c.competition_id }}" {% if c.competition_id|string == sel_comp %}selected{% endif %}>
+          {{ c.name }} ({{ c.season }})
+        </option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="col-auto">
+    <input type="text" name="season" class="form-control form-control-sm"
+           placeholder="Season e.g. 2025/2026" value="{{ sel_season }}">
+  </div>
+  <div class="col-auto">
+    <button type="submit" class="btn btn-sm btn-primary">Filter</button>
+    <a href="{{ url_for('manager_squad_stats') }}" class="btn btn-sm btn-outline-secondary">Reset</a>
+  </div>
+</form>
+
+<div class="table-responsive">
+<table class="table table-sm table-striped">
+  <thead><tr>
+    <th>Player</th><th>Age</th><th>Pos</th><th>Foot</th><th>Ht</th><th>Nat</th>
+    <th>MV (€)</th><th>GP</th><th>G</th><th>A</th><th>YC</th><th>RC</th>
+    <th>Avg Rat.</th><th>Avg Min</th>
+  </tr></thead>
+  <tbody>
+  {% for p in players %}
+    <tr>
+      <td>{{ p.name }} {{ p.surname }}</td>
+      <td>{{ p.age }}</td>
+      <td>{{ p.main_position }}</td>
+      <td>{{ p.strong_foot }}</td>
+      <td>{{ p.height }}</td>
+      <td>{{ p.nationality }}</td>
+      <td>{{ '{:,.0f}'.format(p.market_value) }}</td>
+      <td>{{ p.played or 0 }}</td>
+      <td>{{ p.goals or 0 }}</td>
+      <td>{{ p.assists or 0 }}</td>
+      <td>{{ p.yellow_cards or 0 }}</td>
+      <td>{{ p.red_cards or 0 }}</td>
+      <td>{{ p.avg_rating or '—' }}</td>
+      <td>{{ p.avg_minutes or '—' }}</td>
+    </tr>
+  {% else %}
+    <tr><td colspan="14" class="text-center text-muted">No players found.</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endblock %}

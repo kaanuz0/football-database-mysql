@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Player Profile{% endblock %}
+{% block content %}
+<h2>👤 My Profile</h2>
+{% if profile %}
+<div class="card shadow-sm">
+  <div class="card-body">
+    <table class="table table-borderless mb-0">
+      <tr><th>Name</th><td>{{ profile.name }} {{ profile.surname }}</td></tr>
+      <tr><th>Age</th><td>{{ ((now_date - profile.date_of_birth).days // 365) if profile.date_of_birth else '—' }}</td></tr>
+      <tr><th>Nationality</th><td>{{ profile.nationality }}</td></tr>
+      <tr><th>Current Club</th><td>{{ profile.current_club or 'Free Agent' }}</td></tr>
+      <tr><th>Position</th><td>{{ profile.main_position }}</td></tr>
+      <tr><th>Strong Foot</th><td>{{ profile.strong_foot }}</td></tr>
+      <tr><th>Height</th><td>{{ profile.height }} cm</td></tr>
+      <tr><th>Market Value</th><td>€{{ '{:,.0f}'.format(profile.market_value) }}</td></tr>
+    </table>
+  </div>
+</div>
+{% else %}
+<p class="text-muted">Profile not found.</p>
+{% endif %}
+{% endblock %}

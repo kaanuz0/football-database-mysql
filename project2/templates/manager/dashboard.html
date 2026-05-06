@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}Manager Profile{% endblock %}
+{% block content %}
+<h2>👤 Manager Profile</h2>
+{% if profile %}
+<div class="card shadow-sm">
+  <div class="card-body">
+    <table class="table table-borderless mb-0">
+      <tr><th>Name</th><td>{{ profile.name }} {{ profile.surname }}</td></tr>
+      <tr><th>Nationality</th><td>{{ profile.nationality }}</td></tr>
+      <tr><th>Date of Birth</th><td>{{ profile.date_of_birth }}</td></tr>
+      <tr><th>Current Club</th><td>{{ profile.current_club or 'Unassigned' }}</td></tr>
+      <tr><th>Formation</th><td>{{ profile.preferred_formation }}</td></tr>
+      <tr><th>Experience</th><td>{{ profile.experience_level }}</td></tr>
+    </table>
+  </div>
+</div>
+{% endif %}
+{% endblock %}
